@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
+    private final BookRepository bookRepository;
 
-    private BookRepository bookRepository;
+    @Autowired
+    public BookServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Override
     public Book save(Book book) {
@@ -21,8 +25,4 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
-    @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
 }

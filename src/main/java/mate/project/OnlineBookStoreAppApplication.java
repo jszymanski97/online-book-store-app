@@ -25,7 +25,7 @@ public class OnlineBookStoreAppApplication {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
-                Book book = new Book();
+                Book book = createBook();
                 book.setTitle("Book Title");
                 book.setAuthor("Author");
                 book.setIsbn("isbn");
@@ -36,5 +36,9 @@ public class OnlineBookStoreAppApplication {
                 System.out.println(allBooks);
             }
         };
+    }
+
+    private Book createBook() {
+        return new Book();
     }
 }
