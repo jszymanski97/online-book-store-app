@@ -1,28 +1,38 @@
 package mate.project.service;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import mate.project.dto.BookDto;
+import mate.project.dto.CreateBookRequestDto;
+import mate.project.exception.EntityNotFoundException;
+import mate.project.mapper.BookMapper;
 import mate.project.model.Book;
 import mate.project.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
-    @Autowired
-    public BookServiceImpl(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    @Override
+    public BookDto save(CreateBookRequestDto createBookRequestDto) {
+        Book model = bookMapper.toModel(createBookRequestDto);
+        return bookMapper.toBookDto(bookRepository.save(model));
     }
 
     @Override
-    public Book save(Book book) {
-        return bookRepository.save(book);
+    public List<BookDto> findAll() {
+        return bookRepository.findAll().stream()
+                .map(bookMapper::toBookDto)
+                .toList();
     }
 
     @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public BookDto getBookById(Long id) {
+        Book book = bookRepository.getBookById(id).orElseThrow(
+                () -> new EntityNotFoundException("Book with id " + id + " not found"));
+        return bookMapper.toBookDto(book);
     }
-
 }
