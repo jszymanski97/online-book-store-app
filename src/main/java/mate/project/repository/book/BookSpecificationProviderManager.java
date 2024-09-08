@@ -2,6 +2,7 @@ package mate.project.repository.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import mate.project.exception.SpecificationNotFoundException;
 import mate.project.model.Book;
 import mate.project.repository.SpecificationProvider;
 import mate.project.repository.SpecificationProviderManager;
@@ -18,7 +19,7 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
         return bookSpecificationProviders.stream()
                 .filter(p -> p.getKey().equals(key))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("No specification provider found for key: "
-                        + key));
+                .orElseThrow(() -> new SpecificationNotFoundException(
+                        "No specification provider found for key: " + key));
     }
 }
