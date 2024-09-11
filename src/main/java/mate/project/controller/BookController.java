@@ -1,5 +1,6 @@
 package mate.project.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.project.dto.BookDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @RestController
@@ -35,13 +37,18 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
-        return bookService.save(bookDto);
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto bookDto) {
+        BookDto savedBook = bookService.save(bookDto);
+        if (savedBook == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to create book");
+        }
+        return savedBook;
     }
 
     @PutMapping("/{id}")
     public BookDto updateBookById(@PathVariable Long id,
-                                  @RequestBody CreateBookRequestDto bookDto) {
+                                  @RequestBody @Valid CreateBookRequestDto bookDto) {
         return bookService.updateBookById(id, bookDto);
     }
 
@@ -52,7 +59,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public List<BookDto> search(BookSearchParameters searchParameters) {
+    public List<BookDto> search(@Valid BookSearchParameters searchParameters) {
         return bookService.search(searchParameters);
     }
 }
