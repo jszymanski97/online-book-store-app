@@ -10,8 +10,12 @@ import mate.project.mapper.BookMapper;
 import mate.project.model.Book;
 import mate.project.repository.book.BookRepository;
 import mate.project.repository.book.BookSpecificationBuilder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
@@ -22,13 +26,19 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
+        if (createBookRequestDto == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to create book");
+        }
         Book model = bookMapper.toModel(createBookRequestDto);
         return bookMapper.toBookDto(bookRepository.save(model));
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll().stream()
+
+    public List<BookDto> findAll(Pageable pageable) {
+        Pageable effectivePageable = pageable != null ? pageable : PageRequest.of(0, 5);
+        return bookRepository.findAll(effectivePageable).stream()
                 .map(bookMapper::toBookDto)
                 .toList();
     }
