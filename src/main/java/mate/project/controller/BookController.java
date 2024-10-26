@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @Tag(name = "Book Management", description = "Endpoints for managing books")
 @RequiredArgsConstructor
@@ -31,31 +30,29 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    @Operation(summary = "Get all books", description = "Get a list of all available books")
+    @Operation(summary = "Get all books", description = "Fetches a paginated list of"
+            + " all books available in the database")
     public List<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get a book by id", description = "Finding a book by specific id ")
+    @Operation(summary = "Get a book by id", description = "Fetches a single book's"
+            + " details by its unique id")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
     @PostMapping
-    @Operation(summary = "Create a new book", description = "Saving a new book to database")
+    @Operation(summary = "Create a new book", description = "Adds a new book to the"
+            + " database based on the provided details")
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto bookDto) {
-        BookDto savedBook = bookService.save(bookDto);
-        if (savedBook == null) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Failed to create book");
-        }
-        return savedBook;
+        return bookService.save(bookDto);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing book",
-            description = "Replaces the details of an existing book with the provided data")
+            description = "Modifies the details of an existing book based on the provided data")
     public BookDto updateBookById(@PathVariable Long id,
                                   @RequestBody @Valid CreateBookRequestDto bookDto) {
         return bookService.updateBookById(id, bookDto);
@@ -63,7 +60,8 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete book by id", description = "Deletes the book from database")
+    @Operation(summary = "Delete book by id", description = "Removes a book from"
+            + " the database using its unique id")
     public void deleteBookById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
