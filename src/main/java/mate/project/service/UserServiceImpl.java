@@ -7,6 +7,7 @@ import mate.project.exception.RegistrationException;
 import mate.project.mapper.UserMapper;
 import mate.project.model.User;
 import mate.project.repository.user.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,14 +17,18 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserResponseDto register(UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+    public UserResponseDto register(UserRegistrationRequestDto requestDto) {
         if (userRepository.findByEmail(requestDto.getEmail()) != null) {
             throw new RegistrationException("User with email: " + requestDto.getEmail()
                     + " already exists");
         }
         User model = userMapper.toModel(requestDto);
-        userRepository.save(model);
-        return userMapper.toUserResponseDto(model);
+        try {
+            User savedUser = userRepository.save(model);
+            return userMapper.toUserResponseDto(savedUser);
+        } catch (DataIntegrityViolationException e) {
+            throw new RegistrationException("User with email: " + requestDto.getEmail()
+                    + " already exists");
+        }
     }
 }

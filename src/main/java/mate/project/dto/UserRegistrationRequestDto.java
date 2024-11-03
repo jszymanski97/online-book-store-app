@@ -8,7 +8,7 @@ import lombok.Getter;
 import mate.project.validation.FieldMatch;
 
 @Getter
-@FieldMatch(first = "password", second = "repeatPassword",
+@FieldMatch(password = "password", repeatPassword = "repeatPassword",
         message = "Passwords do not match")
 
 public class UserRegistrationRequestDto {
@@ -22,6 +22,10 @@ public class UserRegistrationRequestDto {
             message = "Password must contain at least one uppercase letter,"
                     + " one digit, and one special character.")
     private String password;
+    @Size(min = 8, max = 255)
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$",
+            message = "Password must contain at least one uppercase letter,"
+                    + " one digit, and one special character.")
     private String repeatPassword;
     @NotNull
     @Size(min = 1, max = 255)
@@ -29,5 +33,6 @@ public class UserRegistrationRequestDto {
     @NotNull
     @Size(min = 1, max = 255)
     private String lastName;
+    @Size(max = 500, message = "Shipping address must be less than 500 characters")
     private String shippingAddress;
 }

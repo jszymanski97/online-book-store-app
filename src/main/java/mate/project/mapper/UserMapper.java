@@ -7,7 +7,7 @@ import mate.project.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, componentModel = "spring")
 public interface UserMapper {
     UserResponseDto toUserResponseDto(User user);
 

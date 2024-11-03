@@ -6,19 +6,23 @@ import java.util.Objects;
 import org.springframework.beans.BeanWrapperImpl;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
-    private String first;
-    private String second;
+    private String password;
+    private String repeatPassword;
 
     @Override
     public void initialize(FieldMatch constraintAnnotation) {
-        this.first = constraintAnnotation.first();
-        this.second = constraintAnnotation.second();
+        this.password = constraintAnnotation.password();
+        this.repeatPassword = constraintAnnotation.repeatPassword();
     }
 
     @Override
     public boolean isValid(Object object, ConstraintValidatorContext context) {
-        Object firstValue = new BeanWrapperImpl(object).getPropertyValue(first);
-        Object secondValue = new BeanWrapperImpl(object).getPropertyValue(second);
+        BeanWrapperImpl beanWrapper = new BeanWrapperImpl(object);
+        Object firstValue = beanWrapper.getPropertyValue(password);
+        Object secondValue = beanWrapper.getPropertyValue(repeatPassword);
+        if (firstValue == null && secondValue == null) {
+            return false;
+        }
         return Objects.equals(firstValue, secondValue);
     }
 }

@@ -1,7 +1,18 @@
 package mate.project.exception;
 
-public class RegistrationException extends Exception {
-    public RegistrationException(String message) {
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+@Getter
+public class RegistrationException extends RuntimeException {
+    private final HttpStatus status;
+
+    public RegistrationException(String message, HttpStatus status) {
         super(message);
+        this.status = status;
+    }
+
+    public RegistrationException(String message) {
+        this(message, HttpStatus.BAD_REQUEST);
     }
 }
