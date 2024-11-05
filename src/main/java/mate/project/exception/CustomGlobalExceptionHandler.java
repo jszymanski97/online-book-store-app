@@ -57,9 +57,10 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put("timestamp", ZonedDateTime.now(ZoneOffset.UTC));
         body.put("message", "Registration failed due to invalid input."
                 + " Please check your data and try again.");
-        body.put("status", ex.getStatus().value());
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        body.put("status", status.value());
 
-        return new ResponseEntity<>(body, ex.getStatus());
+        return new ResponseEntity<>(body, status);
     }
 
     private String getErrorMessage(ObjectError objectError) {

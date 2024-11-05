@@ -22,6 +22,7 @@ public class UserRegistrationRequestDto {
             message = "Password must contain at least one uppercase letter,"
                     + " one digit, and one special character.")
     private String password;
+    @NotNull
     @Size(min = 8, max = 255)
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$",
             message = "Password must contain at least one uppercase letter,"
