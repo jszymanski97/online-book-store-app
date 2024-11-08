@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: JS
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "admin@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
+              - column:
+                  name: first_name
+                  value: "Bob"
+              - column:
+                  name: last_name
+                  value: "Bobsky"
+              - column:
+                  name: shipping_address
+                  value: "55 Main Sq, London, England"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "user1@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
+              - column:
+                  name: first_name
+                  value: "Alice"
+              - column:
+                  name: last_name
+                  value: "Aliceton"
+              - column:
+                  name: shipping_address
+                  value: "56 Main Sq, London, England"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "user2@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
+              - column:
+                  name: first_name
+                  value: "Mark"
+              - column:
+                  name: last_name
+                  value: "Marketon"
+              - column:
+                  name: shipping_address
+                  value: "57 Main Sq, London, England"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "user3@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
+              - column:
+                  name: first_name
+                  value: "Jacob"
+              - column:
+                  name: last_name
+                  value: "Jacobson"
+              - column:
+                  name: shipping_address
+                  value: "58 Main Sq, London, England"
