@@ -15,13 +15,10 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
 
     private final Key secret;
-    //@Value("${jwt.expiration}")
+    @Value("${jwt.expiration}")
     private long expiration;
 
-    //@Value here should be coming from "${jwt.secret}". However the mvn clean
-    // keep throwing errors even when everything works fine when running app using "${jwt.secret}"
-
-    public JwtUtil(@Value("verySecretWordoi23FGK5452dSFDFG423ExtraCharacters")
+    public JwtUtil(@Value("${jwt.secret}")
                    String secretString) {
         secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
     }
