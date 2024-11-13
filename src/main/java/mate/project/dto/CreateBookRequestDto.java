@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Set;
+import mate.project.model.Category;
 import mate.project.validation.CoverImage;
 
 public record CreateBookRequestDto(
@@ -19,5 +21,7 @@ public record CreateBookRequestDto(
         @Size(min = 10, max = 1000)
         String description,
         @CoverImage
-        String coverImage
+        String coverImage,
+        @NotNull
+        Set<Category> categories
 ) {}
