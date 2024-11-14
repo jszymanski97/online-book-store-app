@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-book-table
+      id: create-categories-table
       author: JS
       changes:
         - createTable:
-            tableName: books
+            tableName: categories
             columns:
               - column:
                   name: id
@@ -14,32 +14,17 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: title
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: author
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: isbn
+                  name: name
                   type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: price
-                  type: decimal
-                  constraints:
-                    nullable: false
-              - column:
                   name: description
                   type: varchar(255)
-              - column:
-                  name: cover_image
-                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: false
               - column:
                   name: is_deleted
                   type: boolean

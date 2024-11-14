@@ -4,12 +4,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Set;
 import lombok.Data;
 import mate.project.validation.CoverImage;
 
 @Data
-public class BookDto {
+public class BookDtoWithoutCategoryIds {
     @NotNull
     private Long id;
     @NotNull
@@ -27,5 +26,4 @@ public class BookDto {
     private String description;
     @CoverImage
     private String coverImage;
-    private Set<Long> categoriesIds;
 }

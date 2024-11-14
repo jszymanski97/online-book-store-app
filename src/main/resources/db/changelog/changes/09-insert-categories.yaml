@@ -1,0 +1,99 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-categories
+      author: JS
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Fiction"
+              - column:
+                  name: description
+                  value: "Books about Fiction"
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Coding"
+              - column:
+                  name: description
+                  value: "Books about Coding languages"
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Magic"
+              - column:
+                  name: description
+                  value: "Books about Magical creatures"
+  - changeSet:
+      id: insert-books
+      author: JS
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "Fictional Book"
+              - column:
+                  name: author
+                  value: "Fictional author"
+              - column:
+                  name: isbn
+                  value: "qwerty1"
+              - column:
+                  name: price
+                  value: "200"
+              - column:
+                  name: description
+                  value: "Fictional book test"
+              - column:
+                  name: cover_image
+                  value: "testbookcover.jpg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "Coding Book"
+              - column:
+                  name: author
+                  value: "Fictional author"
+              - column:
+                  name: isbn
+                  value: "qwerty2"
+              - column:
+                  name: price
+                  value: "250"
+              - column:
+                  name: description
+                  value: "Coding book test"
+              - column:
+                  name: cover_image
+                  value: "testbookcover.jpg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "Java Coding Book"
+              - column:
+                  name: author
+                  value: "Fictional Java author"
+              - column:
+                  name: isbn
+                  value: "qwerty3"
+              - column:
+                  name: price
+                  value: "220"
+              - column:
+                  name: description
+                  value: "Java Coding book test"
+              - column:
+                  name: cover_image
+                  value: "testbookcover.jpg"

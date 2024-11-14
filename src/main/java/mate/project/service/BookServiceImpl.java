@@ -3,6 +3,7 @@ package mate.project.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.project.dto.BookDto;
+import mate.project.dto.BookDtoWithoutCategoryIds;
 import mate.project.dto.BookSearchParameters;
 import mate.project.dto.CreateBookRequestDto;
 import mate.project.exception.EntityNotFoundException;
@@ -30,7 +31,7 @@ public class BookServiceImpl implements BookService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to create book");
         }
-        Book model = bookMapper.toModel(createBookRequestDto);
+        Book model = bookMapper.toEntity(createBookRequestDto);
         return bookMapper.toBookDto(bookRepository.save(model));
     }
 
@@ -43,6 +44,12 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    public List<BookDtoWithoutCategoryIds> findAllBooksByCategoryId(Long id) {
+        return bookRepository.findAllByCategoryId(id).stream()
+                .map(bookMapper::toDtoWithoutCategoryIds)
+                .toList();
+    }
+
     @Override
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
@@ -52,7 +59,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto updateBookById(Long id, CreateBookRequestDto bookDto) {
-        Book modelBook = bookMapper.toModel(bookDto);
+        Book modelBook = bookMapper.toEntity(bookDto);
         modelBook.setId(id);
         return bookMapper.toBookDto(bookRepository.save(modelBook));
     }
