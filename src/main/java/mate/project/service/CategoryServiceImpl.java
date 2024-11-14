@@ -17,12 +17,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService {
+    private static final int DEFAULT_PAGE_SIZE = 5;
+
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
     @Override
     public List<CategoryResponseDto> findAll(Pageable pageable) {
-        Pageable effectivePageable = pageable != null ? pageable : PageRequest.of(0, 5);
+        Pageable effectivePageable = pageable != null ? pageable : PageRequest.of(0,
+                DEFAULT_PAGE_SIZE);
         return categoryRepository.findAll(effectivePageable).stream()
                 .map(categoryMapper::toDto)
                 .toList();
@@ -39,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponseDto save(CreateCategoryRequestDto requestDto) {
         if (requestDto == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Failed to create book");
+                    "Failed to create category");
         }
         Category model = categoryMapper.toEntity(requestDto);
         return categoryMapper.toDto(categoryRepository.save(model));
@@ -54,6 +57,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteById(Long id) {
-        categoryRepository.deleteById(id);
+        if (categoryRepository.existsById(id)) {
+            categoryRepository.deleteById(id);
+        }
+        throw new EntityNotFoundException("Category with id " + id + " not found");
     }
 }

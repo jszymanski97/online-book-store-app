@@ -24,3 +24,34 @@ databaseChangeLog:
             tableName: books_categories
             columnNames: books_id,categories_id
             constraintName: pk_books_categories
+  - changeSet:
+      id: insert-book_categories-relations
+      author: JS
+      changes:
+        - insert:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: books_id
+                  value: "1"
+              - column:
+                  name: categories_id
+                  value: "1"
+        - insert:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: books_id
+                  value: "2"
+              - column:
+                  name: categories_id
+                  value: "2"
+        - insert:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: books_id
+                  value: "3"
+              - column:
+                  name: categories_id
+                  value: "2"

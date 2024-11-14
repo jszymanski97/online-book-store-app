@@ -40,9 +40,9 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Create a new category", description = "Adds a new category to the"
             + " database based on the provided details")
-    public CategoryResponseDto createCategory(@RequestBody
-                                                  @Valid CreateCategoryRequestDto requestDto) {
-        return categoryService.save(requestDto);
+    public CategoryResponseDto createCategory(
+            @RequestBody @Valid CreateCategoryRequestDto createCategoryRequestDto) {
+        return categoryService.save(createCategoryRequestDto);
     }
 
     @GetMapping("/{id}")
@@ -56,8 +56,9 @@ public class CategoryController {
     @Operation(summary = "Update an existing category",
             description = "Modifies the details of an existing category based on the provided data")
     public CategoryResponseDto updateCategory(
-            @PathVariable Long id, @RequestBody @Valid CreateCategoryRequestDto requestDto) {
-        return categoryService.update(id, requestDto);
+            @PathVariable Long id, @RequestBody @Valid CreateCategoryRequestDto
+            createCategoryRequestDto) {
+        return categoryService.update(id, createCategoryRequestDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
