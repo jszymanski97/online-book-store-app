@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: "admin@example.com"
+                  value: "user1@example.com"
               - column:
                   name: password
                   value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
@@ -26,7 +26,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: "user1@example.com"
+                  value: "user2@example.com"
               - column:
                   name: password
                   value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
@@ -44,7 +44,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: "user2@example.com"
+                  value: "user3@example.com"
               - column:
                   name: password
                   value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
@@ -62,7 +62,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: "user3@example.com"
+                  value: "user4@example.com"
               - column:
                   name: password
                   value: "$2a$10$6WkKheL5B3Fr6BdFinS70OL9gEWeHWAKiX0IiFmJ1LIAz7lWDqhuy"
