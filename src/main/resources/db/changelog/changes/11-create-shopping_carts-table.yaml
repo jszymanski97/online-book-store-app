@@ -1,0 +1,126 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-shopping_carts-table
+      author: JS
+      changes:
+        - createTable:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_shopping_carts_user
+                    references: users(id)
+  - changeSet:
+      id: create-cart_items-table
+      author: JS
+      changes:
+        - createTable:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: shopping_cart_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cart_items_shopping_cart
+                    references: shopping_carts(id)
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cart_items_book
+                    references: books(id)
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: insert-into-shopping_carts
+      author: JS
+      changes:
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: user_id
+                  value: "1"
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  value: "2"
+              - column:
+                  name: user_id
+                  value: "2"
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  value: "3"
+              - column:
+                  name: user_id
+                  value: "4"
+  - changeSet:
+      id: insert-into-cart_items
+      author: JS
+      changes:
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: shopping_cart_id
+                  value: "1"
+              - column:
+                  name: book_id
+                  value: "3"
+              - column:
+                  name: quantity
+                  value: "2"
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: shopping_cart_id
+                  value: "2"
+              - column:
+                  name: book_id
+                  value: "2"
+              - column:
+                  name: quantity
+                  value: "10"
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: shopping_cart_id
+                  value: "3"
+              - column:
+                  name: book_id
+                  value: "1"
+              - column:
+                  name: quantity
+                  value: "7"

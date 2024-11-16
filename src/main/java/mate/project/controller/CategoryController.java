@@ -12,6 +12,7 @@ import mate.project.service.BookService;
 import mate.project.service.CategoryService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     @Operation(summary = "Get all categories", description = "Fetches a paginated list of"
             + " all categories available in the database")
@@ -37,6 +39,7 @@ public class CategoryController {
         return categoryService.findAll(pageable);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Operation(summary = "Create a new category", description = "Adds a new category to the"
             + " database based on the provided details")
@@ -45,6 +48,7 @@ public class CategoryController {
         return categoryService.save(createCategoryRequestDto);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a category by id", description = "Fetches a single category's"
             + " details by its unique id")
@@ -52,6 +56,7 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing category",
             description = "Modifies the details of an existing category based on the provided data")
@@ -61,6 +66,7 @@ public class CategoryController {
         return categoryService.update(id, createCategoryRequestDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete category by id", description = "Removes a category from"
@@ -69,6 +75,7 @@ public class CategoryController {
         categoryService.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}/books")
     @Operation(summary = "Find all books by category", description = "Searches for all books"
             + "in the database using unique id of a chosen category")
