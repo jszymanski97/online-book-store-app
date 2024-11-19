@@ -71,14 +71,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void update(Long id, StatusDto statusDto) {
-        Order orderToUpdate = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Can't find order with order id: " + id));
+    public OrderResponseDto update(Long id, StatusDto statusDto) {
+        Order orderToUpdate = orderRepository.findByOrderId(id);
         try {
             Order.Status statusEnum = Order.Status.valueOf(statusDto.getStatus().toUpperCase());
             orderToUpdate.setStatus(statusEnum);
-            orderRepository.save(orderToUpdate);
+            return orderMapper.toDto(orderRepository.save(orderToUpdate));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid status value: " + statusDto);
         }
@@ -92,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderItemResponseDto getOrderItemByIds(Long orderId, Long itemId) {
+    public OrderItemResponseDto findOrderItemByOrderIdAndItemId(Long orderId, Long itemId) {
 
         return orderMapper.toOrderItemResponseDto(orderRepository.findOrderItem(orderId, itemId));
     }
@@ -106,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private ShoppingCart getUsersShoppingCart(User user) {
-        return shoppingCartRepository.findByUserWithCartItems(user)
+        return shoppingCartRepository.findCartItemsByUser(user)
                 .orElseThrow(() -> new EntityNotFoundException("Shopping cart not found for user: "
                         + user.getEmail()));
     }

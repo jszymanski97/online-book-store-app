@@ -92,7 +92,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     private ShoppingCart getUsersShoppingCart(User user) {
-        return shoppingCartRepository.findByUserWithCartItems(user)
+        return shoppingCartRepository.findCartItemsByUser(user)
                 .orElseThrow(() -> new EntityNotFoundException("Shopping cart not found for user: "
                         + user.getEmail()));
     }

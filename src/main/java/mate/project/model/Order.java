@@ -39,7 +39,6 @@ public class Order {
     private BigDecimal total;
     @Column(nullable = false)
     private LocalDateTime orderDate;
-    @Column(nullable = false)
     private String shippingAddress;
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();

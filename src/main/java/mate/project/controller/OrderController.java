@@ -46,8 +46,9 @@ public class OrderController {
     @PatchMapping("/{id}")
     @Operation(summary = "Update order status", description =
             "Updates the status of an order by its ID.")
-    public void updateOrderStatus(@PathVariable Long id, @Valid @RequestBody StatusDto status) {
-        orderService.update(id, status);
+    public OrderResponseDto updateOrderStatus(@PathVariable Long id,
+                                              @Valid @RequestBody StatusDto status) {
+        return orderService.update(id, status);
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -64,6 +65,6 @@ public class OrderController {
             "Fetches a specific item from an order by order ID and item ID.")
     public OrderItemResponseDto getOrderItem(@PathVariable Long orderId,
                                              @PathVariable Long itemId) {
-        return orderService.getOrderItemByIds(orderId, itemId);
+        return orderService.findOrderItemByOrderIdAndItemId(orderId, itemId);
     }
 }
