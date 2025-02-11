@@ -1,5 +1,7 @@
 package mate.project.mapper;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import mate.project.config.MapperConfig;
 import mate.project.dto.BookDto;
@@ -19,6 +21,8 @@ public interface BookMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "categories", source = "categories",
+            qualifiedByName = "mapCategoryIdsToCategories")
     Book toEntity(CreateBookRequestDto createBookRequestDto);
 
     BookDtoWithoutCategoryIds toDtoWithoutCategoryIds(Book book);
@@ -32,5 +36,19 @@ public interface BookMapper {
                             .collect(Collectors.toSet())
             );
         }
+    }
+
+    @org.mapstruct.Named("mapCategoryIdsToCategories")
+    default Set<Category> mapCategoryIdsToCategories(Set<Long> categoryIds) {
+        if (categoryIds == null) {
+            return new HashSet<>();
+        }
+        return categoryIds.stream()
+                .map(id -> {
+                    Category category = new Category();
+                    category.setId(id);
+                    return category;
+                })
+                .collect(Collectors.toSet());
     }
 }
