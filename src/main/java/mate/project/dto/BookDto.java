@@ -6,9 +6,11 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import mate.project.validation.CoverImage;
 
 @Data
+@Accessors(chain = true)
 public class BookDto {
     @NotNull
     private Long id;

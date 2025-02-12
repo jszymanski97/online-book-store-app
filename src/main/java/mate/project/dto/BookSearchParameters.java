@@ -1,7 +1,6 @@
 package mate.project.dto;
 
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
@@ -10,7 +9,6 @@ public record BookSearchParameters(
         String[] titles,
         @Size(min = 1, max = 255)
         String[] authors,
-        @Min(0)
         String[] isbn,
         @DecimalMin("0.0")
         BigDecimal minPrice,

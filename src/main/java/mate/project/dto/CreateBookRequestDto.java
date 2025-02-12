@@ -1,19 +1,23 @@
 package mate.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
-import mate.project.model.Category;
+import lombok.experimental.Accessors;
 import mate.project.validation.CoverImage;
 
+@Accessors(chain = true)
 public record CreateBookRequestDto(
         @NotNull
         String title,
         @NotNull
         String author,
         @NotNull
+        @JsonProperty("isbn")
+        @Size(min = 10, max = 17)
         String isbn,
         @NotNull
         @Min(0)
@@ -23,5 +27,5 @@ public record CreateBookRequestDto(
         @CoverImage
         String coverImage,
         @NotNull
-        Set<Category> categories
+        Set<Long> categories
 ) {}
