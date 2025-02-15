@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+import java.util.Optional;
 import mate.project.model.ShoppingCart;
 import mate.project.model.User;
 import mate.project.repository.shoppingcart.ShoppingCartRepository;
@@ -14,8 +16,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.jdbc.Sql;
-import java.util.List;
-import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureMockMvc

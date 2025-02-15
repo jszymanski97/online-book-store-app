@@ -128,7 +128,8 @@ public class ShoppingCartServiceTest {
         invalidCartItemRequestDto.setQuantity(1);
 
         // When & Then
-        assertThrows(UsernameNotFoundException.class, () -> shoppingCartService.addCartItem(invalidCartItemRequestDto));
+        assertThrows(UsernameNotFoundException.class,
+                () -> shoppingCartService.addCartItem(invalidCartItemRequestDto));
         verify(bookRepository, times(0)).findById(any());
         verify(shoppingCartRepository, times(0)).save(any());
     }

@@ -38,7 +38,7 @@ import org.springframework.web.context.WebApplicationContext;
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ShoppingCartControllerTest {
-    private final static String EXAMPLE_USER = "user1@example.com";
+    private static final String EXAMPLE_USER = "user1@example.com";
 
     @Autowired
     private MockMvc mockMvc;
