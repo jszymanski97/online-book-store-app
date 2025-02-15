@@ -2,6 +2,8 @@ package mate.project.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,6 +36,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -100,7 +103,7 @@ public class ShoppingCartServiceTest {
 
     @Test
     @DisplayName("Adding a new shopping cart item")
-    void addCartItem_validCartItemRequestDto_ShoppingCartResponseDto() {
+    void addCartItem_validCartItemRequestDto_updatedShoppingCart() {
         // Given
         when(shoppingCartRepository.findByUser(user)).thenReturn(Optional.of(shoppingCart));
         when(bookRepository.findById(cartItemRequestDto.getBookId())).thenReturn(Optional.of(book));
@@ -117,8 +120,22 @@ public class ShoppingCartServiceTest {
     }
 
     @Test
+    @DisplayName("Adding a shopping cart item with null bookId")
+    void addCartItem_nullBookId_throwsUsernameNotFoundException() {
+        // Given
+        CartItemRequestDto invalidCartItemRequestDto = new CartItemRequestDto();
+        invalidCartItemRequestDto.setBookId(null);
+        invalidCartItemRequestDto.setQuantity(1);
+
+        // When & Then
+        assertThrows(UsernameNotFoundException.class, () -> shoppingCartService.addCartItem(invalidCartItemRequestDto));
+        verify(bookRepository, times(0)).findById(any());
+        verify(shoppingCartRepository, times(0)).save(any());
+    }
+
+    @Test
     @DisplayName("Updating an existing shopping cart item")
-    void updateCartItem_validCartItemUpdateDto_ShoppingCartResponseDto() {
+    void updateCartItem_validCartItemUpdateDto_updatedShoppingCart() {
         //Given
         when(shoppingCartRepository.findByUser(user)).thenReturn(Optional.of(shoppingCart));
         when(shoppingCartRepository.save(shoppingCart)).thenReturn(shoppingCart);
@@ -139,7 +156,7 @@ public class ShoppingCartServiceTest {
 
     @Test
     @DisplayName("Deleting a shopping cart item")
-    void deleteCartItemById_validCartItemId_void() {
+    void deleteCartItemById_validCartItemId_removesCartFromDb() {
         // Given
         when(shoppingCartRepository.findByUser(user))
                 .thenReturn(Optional.of(shoppingCart));
@@ -173,11 +190,9 @@ public class ShoppingCartServiceTest {
 
     @Test
     @DisplayName("Finding all shopping carts for authenticated user")
-    void findAll_validUser_ShoppingCartResponseDto() {
+    void findAll_validUser_usersIdAndListOfShoppingCartItems() {
         // Given
         when(userRepository.findByEmail("testUser")).thenReturn(Optional.of(user));
-        when(shoppingCartRepository.findAllByUserId(user.getId()))
-                .thenReturn(List.of(shoppingCart));
         when(shoppingCartRepository.findAllByUserId(user.getId()))
                 .thenReturn(List.of(shoppingCart));
         when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(shoppingCartResponseDto);
@@ -189,5 +204,17 @@ public class ShoppingCartServiceTest {
         assertEquals(1, actual.size());
         assertEquals(shoppingCartResponseDto, actual.get(0));
         verify(shoppingCartRepository, times(1)).findAllByUserId(user.getId());
+    }
+
+    @Test
+    @DisplayName("Finding all shopping carts for an invalid user")
+    void findAll_invalidUser_throwsUsernameNotFoundException() {
+        // Given
+        when(userRepository.findByEmail("testUser"))
+                .thenReturn(Optional.empty());
+
+        // When & Then
+        assertThrows(UsernameNotFoundException.class, () -> shoppingCartService.findAll());
+        verify(shoppingCartRepository, times(0)).findAllByUserId(anyLong());
     }
 }

@@ -38,6 +38,8 @@ import org.springframework.web.context.WebApplicationContext;
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ShoppingCartControllerTest {
+    private final static String EXAMPLE_USER = "user1@example.com";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -55,7 +57,7 @@ public class ShoppingCartControllerTest {
                 .build();
     }
 
-    @WithMockUser(username = "user1@example.com", roles = {"USER"})
+    @WithMockUser(username = EXAMPLE_USER, roles = {"USER"})
     @DisplayName("Fetch shopping cart for user1")
     @Test
     void getShoppingCart_forUser1_returnsCorrectCartItems() throws Exception {
@@ -84,10 +86,10 @@ public class ShoppingCartControllerTest {
         Assertions.assertEquals(2, firstItem.getQuantity());
     }
 
-    @WithMockUser(username = "user1@example.com", roles = {"USER"})
+    @WithMockUser(username = EXAMPLE_USER, roles = {"USER"})
     @DisplayName("Fetch shopping cart for user1")
     @Test
-    void addBookToCart_forUser2_returnsShoppingCart() throws Exception {
+    void addBookToCart_forUser1_returnsShoppingCart() throws Exception {
         //Given
         CartItemRequestDto newCartItem = new CartItemRequestDto();
         newCartItem.setBookId(2L);
@@ -111,7 +113,7 @@ public class ShoppingCartControllerTest {
         Assertions.assertEquals(3, shoppingCart.getCartItems().size());
     }
 
-    @WithMockUser(username = "user1@example.com", roles = {"USER"})
+    @WithMockUser(username = EXAMPLE_USER, roles = {"USER"})
     @DisplayName("Update cart item for user1")
     @Test
     void updateCartItem_forUser1_returnsUpdatedShoppingCart() throws Exception {
@@ -144,7 +146,7 @@ public class ShoppingCartControllerTest {
         Assertions.assertEquals(3, updatedItem.getQuantity());
     }
 
-    @WithMockUser(username = "user1@example.com", roles = {"USER"})
+    @WithMockUser(username = EXAMPLE_USER, roles = {"USER"})
     @DisplayName("Delete cart item for user1")
     @Test
     void deleteCartItem_forUser1_returnsNoContent() throws Exception {
