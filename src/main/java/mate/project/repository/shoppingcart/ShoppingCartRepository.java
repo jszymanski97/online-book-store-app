@@ -1,5 +1,6 @@
 package mate.project.repository.shoppingcart;
 
+import java.util.List;
 import java.util.Optional;
 import mate.project.model.ShoppingCart;
 import mate.project.model.User;
@@ -10,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
     Optional<ShoppingCart> findByUser(User user);
 
-    Optional<ShoppingCart> findAllByUserId(Long userId);
+    List<ShoppingCart> findAllByUserId(Long userId);
 
     @Query("SELECT sc FROM ShoppingCart sc LEFT JOIN FETCH sc.cartItems WHERE sc.user = :user")
     Optional<ShoppingCart> findCartItemsByUser(@Param("user") User user);
