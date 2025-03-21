@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class OnlineBookStoreAppApplication {
-    private static final Logger logger = LoggerFactory.getLogger(OnlineBookStoreAppApplication.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(OnlineBookStoreAppApplication.class);
 
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.load();
